@@ -11,10 +11,11 @@ Ultrasonic sensor_2(8,9);   //sensor ultrassônico2
 
 long distSensor_1;          //distância sensor ultrassônico1
 long distSensor_2;          //distância sensor ultrassônico2
-int timeSensor;       //variável auxiliar tempo sensor1
+int timeSensor;             //variável auxiliar tempo sensor1
 int ultimoSensor;           //variável auxiliar para salvar último sensor que ativou sinal verde
-int resetTimeSensor_1 = 0;
-int resetTimeSensor_2 = 0;
+int resetTimeSensor_1 = 0;  //variável para resetar time do sensor1
+int resetTimeSensor_2 = 0;  //variável para resetar time do sensor2
+int distancia = 5;          //variável para definir a distância que o sensor será acionado
 
 void setup() {
   pinMode(ledVd_1, OUTPUT);
@@ -23,7 +24,7 @@ void setup() {
   pinMode(ledVd_2, OUTPUT);
   pinMode(ledAm_2, OUTPUT);
   pinMode(ledVm_2, OUTPUT);
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 
 void loop(){
@@ -55,11 +56,11 @@ void loop(){
   Serial.print("sensor2 ");
   Serial.println(distSensor_2);
 
-  if(distSensor_1 < 10 && distSensor_2 > 9 && ultimoSensor != 1){
+  if(distSensor_1 <= distancia && distSensor_2 > distancia && ultimoSensor != 1){
     ultimoSensor = 1;
     timeSensor = 0;
 
-    while(distSensor_1 < 10 && timeSensor < 20){
+    while(distSensor_1 <= distancia && timeSensor < 20){
       digitalWrite(ledVm_1, LOW);
       delay(200);
       digitalWrite(ledVd_1, HIGH);
@@ -77,11 +78,11 @@ void loop(){
   }
 
   
-  if(distSensor_1 > 9 && distSensor_2 < 10 && ultimoSensor != 2){
+  if(distSensor_1 > distancia && distSensor_2 <= distancia && ultimoSensor != 2){
     ultimoSensor = 2;
     timeSensor = 0;
     
-    while(distSensor_2 < 10 && timeSensor < 20){
+    while(distSensor_2 <= distancia && timeSensor < 20){
       digitalWrite(ledVm_2, LOW);
       delay(200);
       digitalWrite(ledVd_2, HIGH);
@@ -99,13 +100,13 @@ void loop(){
 
   }
 
-  if(distSensor_1 < 10 && distSensor_2 < 10){
+  if(distSensor_1 <= distancia && distSensor_2 <= distancia){
 
     switch(ultimoSensor){
       case 1:
         ultimoSensor = 2;
         timeSensor = 0;
-        while(distSensor_2 < 10 && timeSensor < 20){
+        while(distSensor_2 <= distancia && timeSensor < 20){
           digitalWrite(ledVm_2, LOW);
           delay(200);
           digitalWrite(ledVd_2, HIGH);
@@ -126,7 +127,7 @@ void loop(){
         ultimoSensor = 1;
         timeSensor = 0;
         
-        while(distSensor_1 < 10 && timeSensor < 20){
+        while(distSensor_1 <= distancia && timeSensor < 20){
           digitalWrite(ledVm_1, LOW);
           delay(200);
           digitalWrite(ledVd_1, HIGH);
@@ -147,7 +148,7 @@ void loop(){
         ultimoSensor = 1;
         timeSensor = 0;
         
-        while(distSensor_1 < 10 && timeSensor < 20){
+        while(distSensor_1 <= distancia && timeSensor < 20){
           digitalWrite(ledVm_1, LOW);
           delay(200);
           digitalWrite(ledVd_1, HIGH);
@@ -167,12 +168,12 @@ void loop(){
     }    
   }
 
-  if(timeSensor != 0 && timeSensor < 201 && ultimoSensor == 1){
+  if(timeSensor != 0 && timeSensor <= 200 && ultimoSensor == 1){
     Serial.print("teste");
     Serial.println(resetTimeSensor_1);
     resetTimeSensor_1 = resetTimeSensor_1 + 1;
   }
-  if(timeSensor != 0 && timeSensor < 201 && ultimoSensor == 2){
+  if(timeSensor != 0 && timeSensor <= 200 && ultimoSensor == 2){
     Serial.print("teste");
     Serial.println(resetTimeSensor_2);
     resetTimeSensor_2 = resetTimeSensor_2 + 1;
