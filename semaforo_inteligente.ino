@@ -16,7 +16,7 @@ int ultimoSensor;           //variável auxiliar para salvar último sensor que 
 int resetTimeSensor_1 = 0;  //variável para resetar time do sensor1
 int resetTimeSensor_2 = 0;  //variável para resetar time do sensor2
 int distancia = 5;          //variável para definir a distância que o sensor será acionado
-int tempo = 20;             //variável para definir o tempo que o sinal ficará aberto após ser acionado, 1 = 200milisegundos
+int tempo = 30;             //variável para definir o tempo que o sinal ficará aberto após ser acionado, 1 = 200milisegundos
 
 void setup() {
   pinMode(ledVd_1, OUTPUT);
